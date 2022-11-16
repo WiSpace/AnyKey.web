@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>AnyKey.web</title>
+        <meta name="description" content="AnyKey on HTML/JS">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script src="script.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <textarea name="code" id="code" cols="50" rows="20"></textarea>
+        <button onclick="start()">Start</button>
+        <script>
+            function start() {
+                const code = document.getElementById("code").value;
+                console.log("code:", code);
+                const NowType = { FUNCTION: 'fun', SRED: 'sred', VALUE: 'val' };
+                const Functions = { Out: 'Out', In: 'In', OutIn: 'OutIn', OutL: 'OutL' };
+                let now = NowType.FUNCTION;
+                let fun = Functions.Out;
+                let outv = "";
+                let inv = "NULL";
+
+                for (var i = 0; i < code.length; i++) {
+                    switch (now) {
+                        case NowType.FUNCTION:
+                            switch (code[i]) {
+                                case 'a':
+                                    fun = Functions.Out;
+                                    break;
+                                case 'b':
+                                    fun = Functions.In;
+                                    break;
+                                case 'c':
+                                    fun = Functions.OutIn;
+                                    break;
+                                case 'd':
+                                    fun = Functions.OutL;
+                                    break;
+                                default:
+                                    fun = Functions.Out;
+                                    break;
+                            }
+                            now = NowType.SRED;
+                            break;
+                        case NowType.SRED:
+                            now = NowType.VALUE;
+                            break;
+                        case NowType.VALUE:
+                            switch (fun) {
+                                case Functions.Out:
+                                    outv += code[i];
+                                    break;
+                                case Functions.In:
+                                    inv = prompt("input");
+                                    break;
+                                case Functions.OutIn:
+                                    outv += inv;
+                                    break;
+                                case Functions.OutL:
+                                    outv += "\n";
+                                    break;
+                            }
+                            now = NowType.FUNCTION;
+                            break;
+                    }
+                }
+                console.log("out:", outv);
+            }
+        </script>
+    </body>
+</html>
